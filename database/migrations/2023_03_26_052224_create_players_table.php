@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
+            $table->enum('status', ['inactive', 'active', 'block'])->default('active');
             $table->string('name');
-            $table->integer('points')->default(0);
+            $table->string('nickname')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('password');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('player');
     }
 };
+
